@@ -1,0 +1,306 @@
+body {
+    margin : 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+$primary-color: tomato;
+
+
+.navbar {
+    background-color: $primary-color;
+    height: 70px;
+    width: 100%;
+    padding: 0.8em;
+    color: #ffffff;
+}
+
+.main-section {
+    // background-color: lightgreen;
+    height: calc(100vh - 70px);
+    width: 100%;
+    padding: 0.5em;
+
+    .group-by-genre {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        align-items: center;
+        padding: 0.5em 1em;
+        border-radius: 0.5em;
+        box-shadow: 2px 2px 5px;
+        -webkit-overflow-scrolling: touch;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+}
+
+.movie-list-container {
+    // background-color: tomato;
+    display: flex;
+    flex-direction: column;
+    margin: 1em 0em;
+    padding: 0.5em;
+    height: 92%;
+    border-radius: 0.5em;
+    box-shadow: 1px 1px 5px #999;
+
+    .movie-list-header {
+        margin-bottom: 1em;
+
+        .movie-list-searchbar{
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5em;
+        }
+
+        .movie-list-sortby {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-align: right;
+            font-weight: 500;
+            //padding: 0.5em;
+        }
+    }
+
+    .movie-list {
+        height: inherit;
+        overflow-y: scroll;
+    }
+
+    .review-chunk {
+        // background-color: lightgreen;
+        display: flex;
+        margin: 0.5em;
+        margin-bottom: 0.5em;
+        padding: 0.5em 1em;
+        border-radius: 0.5em;
+        box-shadow: 1px 1px 5px #999;
+        font-size: 0.8em;
+
+        .review-chunk-details {
+            border-right: 1px solid #999;
+            flex: 8;
+        }
+
+        .review-chunk-score {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex: 1;
+            padding-left: 1em;
+            text-align: center;
+        }
+
+        .movie-text {
+            font-size: 1.8em;
+            font-weight: 500;
+            line-height: 1em;
+            margin-bottom: 0.5em;
+        }
+        .rating-text {
+            font-size: 2.8em;
+            font-weight: 500;
+        }
+    }
+}
+
+
+/* iPad and Tablet Media Query */
+
+/* (portrait) */
+@media only screen and (min-width: 600px) and (max-device-width : 1024px) and (orientation : portrait) {
+    .main-section {
+        .group-by-genre {
+            margin: 0.5em 2em;
+        }
+    }
+
+    .movie-list-container {
+        margin: 1em 2em 0em 2em;
+        height: 92%;
+        
+        .movie-list-header {
+            display: flex;
+            margin: 0.5em;
+
+            .movie-list-searchbar {
+                flex: 3;
+                margin-right: 4em;
+                margin-bottom: 0em;
+            }
+    
+            .movie-list-sortby {
+                flex: 2;
+            }
+        }
+    }
+}
+
+
+/* (landscape) */
+@media only screen and (min-width: 768px) {
+    .main-section {
+        .group-by-genre {
+            margin: 0.5em 2em;
+        }
+    }
+
+    .movie-list-container {
+        margin: 1em 2em 0em 2em;
+        height: 92%;
+        
+        .movie-list-header {
+            display: flex;
+            flex: 1;
+            margin: 0.5em;
+
+            .movie-list-searchbar {
+                flex: 3;
+                margin-right: 4em;
+                margin-bottom: 0em;
+            }
+    
+            .movie-list-sortby {
+                flex: 2;
+            }
+        }
+    }
+}
+
+
+/* Desktop Media Query */
+@media only screen  and (min-width : 1200px) {
+    .main-section {
+        .group-by-genre {
+            margin: 0.5em 3em;
+        }
+    }
+
+    .movie-list-container {
+        margin: 1em 3em 0em 3em;
+        height: 90%;
+        
+        .movie-list-header {
+            display: flex;
+            flex: 1;
+            align-items: center;
+
+            .movie-list-searchbar {
+                flex: 6;
+                margin-right: 5em;
+                margin-bottom: 0em;
+            }
+    
+            .movie-list-sortby {
+                flex: 4;
+            }
+        }
+    }
+}
+
+// .navbar {
+//     background-color: tomato;
+//     height: 70px;
+//     width: 100%;
+//     padding: 0.8em;
+//     color: #ffffff;
+// }
+
+// .main-section {
+//     // background-color: lightgreen;
+//     height: calc(100vh - 70px);
+//     width: 100%;
+//     padding: 0.5em;
+
+//     .group-by-genre {
+//         display: flex;
+//         flex-wrap: nowrap;
+//         overflow-x: auto;
+//         align-items: center;
+//         margin: 0em 5em;
+//         padding: 0.5em 1em;
+//         border-radius: 0.5em;
+//         box-shadow: 2px 2px 5px;
+//         -webkit-overflow-scrolling: touch;
+
+//         &::-webkit-scrollbar {
+//             display: none;
+//         }
+//     }
+// }
+
+// .movie-list-container {
+//     // background-color: tomato;
+//     margin: 1em 5em 0em 5em;
+//     padding: 0.5em 1em;
+//     height: 90%;
+//     border-radius: 0.5em;
+//     box-shadow: 2px 2px 5px;
+
+//     .movie-list-header {
+//         padding-right: 0.5em;
+//         padding-bottom: 00.5em;
+//         display: flex;
+//         align-items: center;
+//         flex: 1;
+
+//         .movie-list-searchbar {
+//             flex: 5;
+//         }
+
+//         .movie-list-sortby {
+//             display: flex;
+//             align-items: center;
+//             text-align: right;
+//             font-weight: 500;
+//             padding: 0.5em;
+//             margin-left: 2em;
+//         }
+//     }
+
+//     .movie-list {
+//         height: inherit;
+//         padding-right: 5px;
+//         overflow-y: scroll;
+
+//         &::-webkit-scrollbar-track {
+//             -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+//             background-color: #ccc;
+//         }
+    
+//         &::-webkit-scrollbar {
+//             width: 6px;
+//             background-color: #ccc;
+//         }
+    
+//         &::-webkit-scrollbar-thumb {
+//             border-radius: 6px;
+//             background-color: #666;
+//         }
+//     }
+
+//     .review-chunk {
+//         // background-color: lightgreen;
+//         display: flex;
+//         margin: 0.5em;
+//         padding: 0.5em 2em;
+//         border-radius: 0.5em;
+//         box-shadow: 1px 1px 5px;
+
+//         .review-chunk-details {
+//             border-right: 1px solid #666;
+//             flex: 8,
+//         }
+
+//         .review-chunk-score{
+//             flex: 1;
+//             padding-left: 1em;
+//             text-align: center;
+//         }
+//     }
+// }
+
