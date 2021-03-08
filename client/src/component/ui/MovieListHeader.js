@@ -7,7 +7,7 @@ import {
   Text,
   Select,
 } from '@chakra-ui/react';
-// import Select from "react-select";
+import { AddIcon } from '@chakra-ui/icons';
 
 const sortByData = [
   {
@@ -28,7 +28,7 @@ const sortByData = [
   },
 ];
 
-export default function MovieListHeader({ sortByFunc, searchFunc }) {
+export default function MovieListHeader({ sortByFunc, searchFunc, addMovieData }) {
   const searchInputRef = useRef(null)
   const [value, setValue] = useState('');
   const handleChange = event => {
@@ -68,7 +68,7 @@ export default function MovieListHeader({ sortByFunc, searchFunc }) {
         </InputGroup>
       </div>
       <div className="movie-list-sortby">
-        <Text mr="0.5em" width="5em">
+        <Text mr="0.5em" width="8em">
           {' '}
           Sort By:
         </Text>
@@ -79,6 +79,11 @@ export default function MovieListHeader({ sortByFunc, searchFunc }) {
             </option>
           ))}
         </Select>
+        <div className="movie-list-add-btn">
+          <Button  leftIcon={<AddIcon />} size="sm" colorScheme="teal" variant="solid" onClick={addMovieData}>
+              Add Movie
+          </Button>
+        </div>
       </div>
     </div>
   );

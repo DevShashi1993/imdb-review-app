@@ -58,4 +58,37 @@ router.get("/search", async (req, res) => {
   }
 });
 
+//Create a new movie Data with new genre if not available
+router.post("/new", async (req, res) => {
+  try {
+    let {
+      assignTo,
+      createdBy,
+      dueDate,
+      ticketDesc,
+      ticketPriority,
+      ticketTitle,
+      ticketType,
+    } = req.body;
+
+    // // TODO: need to move to utility functions
+    // // replaced apostrophe symbol ' with '', just to handle insert query in SQL
+    // ticketTitle = ticketTitle.replace(/'/g, "''");
+    // ticketDesc = ticketDesc.replace(/'/g, "''");
+
+    // const ticketInsertQuery = `INSERT INTO tickets(
+    //   ticket_title, ticket_desc, type_id, status_id, priority_id, created_by, assigned_to, due_date, created_on)
+    //   VALUES ('${ticketTitle}', '${ticketDesc}', ${ticketType}, 101, ${ticketPriority}, ${createdBy}, ${assignTo}, '${dueDate}', current_timestamp) RETURNING *`;
+
+    // const newticketData = await pool.query(ticketInsertQuery);
+
+    // if (newticketData.rows.length === 1) {
+    //   return res.status(200).send("Ticket created sucessfully");
+    // }
+  } catch (err) {
+    console.error(`Error: ${err.message}`);
+    return res.status(500).send("Server error");
+  }
+});
+
 module.exports = router;

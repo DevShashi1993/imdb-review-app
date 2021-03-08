@@ -15,11 +15,31 @@ $primary-color: tomato;
     color: #ffffff;
 }
 
+.main-container {
+    height: calc(100vh - 80px);
+    width: 100%;
+}
+
+.login-form-container {
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .login-form {   
+        width: 50em;
+        margin: 0 auto;
+        border-radius: 1em;
+        box-shadow: 1px 1px 5px #999;
+        padding: 2em;
+        margin: 1em;
+    }
+}
+
+
 .main-section {
     // background-color: lightgreen;
-    height: calc(100vh - 70px);
-    width: 100%;
-    padding: 0.5em;
+    height: inherit;
 
     .group-by-genre {
         display: flex;
@@ -64,6 +84,10 @@ $primary-color: tomato;
             font-weight: 500;
             //padding: 0.5em;
         }
+
+        .movie-list-add-btn {
+            margin-left: 1em;
+        }
     }
 
     .movie-list {
@@ -93,6 +117,13 @@ $primary-color: tomato;
             flex: 1;
             padding-left: 1em;
             text-align: center;
+        }
+
+        .review-chunk-crud {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            margin-left: 0.5em;
         }
 
         .movie-text {
@@ -190,13 +221,13 @@ $primary-color: tomato;
             align-items: center;
 
             .movie-list-searchbar {
-                flex: 6;
+                flex: 7;
                 margin-right: 5em;
                 margin-bottom: 0em;
             }
     
             .movie-list-sortby {
-                flex: 4;
+                flex: 3;
             }
         }
     }

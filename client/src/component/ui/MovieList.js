@@ -1,23 +1,24 @@
-import React, {  } from 'react';
-import { Stack } from '@chakra-ui/react';
+import React, { useState } from 'react';
 import Chunk from '../ui/Chunk';
 
-export default function MovieList({movieData}) {
+export default function MovieList({ movieData, updateMovieData}) {
   return (
-    
-    movieData ? (
-      <Stack className="movie-list">
-        {movieData.map((movieObj, index) => (
-          <Chunk
-            key={index}
-            name={movieObj.name}
-            director={movieObj.director}
-            genre={movieObj.genre}
-            rating={movieObj.imdb_score}
-            popularity={movieObj.popularity}
-          />
-        ))}
-      </Stack>
-    ) : (<div>Loading....</div>)
+    <>
+      <div className="movie-list">
+        {movieData &&
+          movieData.map((movieObj, index) => (
+            <Chunk
+              id={movieObj.id}
+              key={movieObj.id}
+              movie_name={movieObj.movie_name}
+              director_name={movieObj.director_name}
+              genre={movieObj.genre}
+              rating={movieObj.rating}
+              popularity={movieObj.popularity}
+              updateMovieDataFunc={updateMovieData}
+            />
+          ))}
+      </div>
+    </>
   );
 }

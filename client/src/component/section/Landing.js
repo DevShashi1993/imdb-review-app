@@ -4,27 +4,56 @@ import { Box } from '@chakra-ui/react';
 import MovieList from '../ui/MovieList';
 import MovieListHeader from '../ui/MovieListHeader';
 import GroupByGenre from '../ui/GroupByGenre';
-import initMovieData from '../../movie-data.json';
+import CrudModal from '../ui/CrudModal';
+// import initMovieData from '../../movie-data.json';
 
 export default function Landing() {
+  const initModalData = {
+    id: '',
+    movie_name : '',
+    director_name : '',
+    genre : '',
+    rating : '0.0',
+    popularity : '0.0',
+  }
   const [movieData, setMovieData] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isNewData, setIsNewData] = useState(false);
+  const [modalData, setModalData] = useState(initModalData);
   console.log('Landing comp rendered')
+
+  const onClose = () => {
+    setIsOpen(false);
+  };
+
+  const updateMovieData = (data) => {
+    setIsOpen(true);
+    setIsNewData(false);
+    setModalData(data);
+  };
+
+  const addMovieData = (data) => {
+    setIsOpen(true);
+    setIsNewData(true)
+    setModalData(initModalData);
+  };
 
   useEffect(() => {
     async function fetchMovieData() {
       try {
-        const res = await axios.get('http://localhost:5000/movie/all');
+        const res = await axios.get('/movie/all');
 
         if (res.status === 200) {
           let newMovieData = await res.data;
+          
           newMovieData = newMovieData.map(obj => {
             let { id, name, director, imdb_score, popularity, genres } = obj;
-            genres = genres.length > 0 ? genres.split(',') : [];
+            genres = genres && genres.length > 0 ? genres.split(',') : [];
             return {
               id: id,
-              name: name,
-              director: director,
-              imdb_score: imdb_score,
+              movie_name: name,
+              director_name: director,
+              rating: imdb_score,
               popularity: popularity,
               genre: genres,
             };
@@ -72,7 +101,7 @@ export default function Landing() {
 
   const searchFunc = async searchStr => {
     try {
-      const res = await axios.get(`http://localhost:5000/movie/search`, {
+      const res = await axios.get(`/movie/search`, {
         params: {
           keyword: searchStr,
         },
@@ -82,19 +111,18 @@ export default function Landing() {
         let newMovieData = await res.data;
         newMovieData = newMovieData.map(obj => {
           let { id, name, director, imdb_score, popularity, genres } = obj;
-          genres = genres.length > 0 ? genres.split(',') : [];
+          genres = genres && genres.length > 0 ? genres.split(',') : [];
           return {
             id: id,
-            name: name,
-            director: director,
-            imdb_score: imdb_score,
+            movie_name: name,
+            director_name: director,
+            rating: imdb_score,
             popularity: popularity,
             genre: genres,
           };
         });
-        console.log('newMovieData => ', res.data);
+        // console.log('newMovieData => ', res.data);
         setMovieData(newMovieData);
-        
       }
     } catch (error) {
       console.log(`Error: ${error}`);
@@ -102,8 +130,9 @@ export default function Landing() {
   };
 
   const groupBy = groupby => {
-    let newMovieData = initMovieData;
+    let newMovieData = [...movieData];
     newMovieData = newMovieData.filter(data => groupby.every(g => data.genre.includes(g)));
+    console.log("newMovieData ", newMovieData);
     setMovieData(newMovieData);
   };
 
@@ -111,8 +140,9 @@ export default function Landing() {
     <Box className="main-section">
       <GroupByGenre groupByHandler={groupBy} />
       <Box className="movie-list-container">
-        <MovieListHeader sortByFunc={sortBy} searchFunc={searchFunc} />
-        <MovieList movieData={movieData} />
+        <MovieListHeader sortByFunc={sortBy} searchFunc={searchFunc} addMovieData={addMovieData} />
+        <MovieList movieData={movieData} updateMovieData={updateMovieData}/>
+        <CrudModal isOpen={isOpen} isNewData={isNewData} onClose={onClose} modalData={modalData} />
       </Box>
     </Box>
   );
