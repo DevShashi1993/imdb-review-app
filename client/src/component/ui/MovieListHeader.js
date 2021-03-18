@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   Button,
   Input,
@@ -8,6 +9,7 @@ import {
   Select,
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
+import { searchMovieData } from '../../store/actions/movieActions';
 
 const sortByData = [
   {
@@ -29,6 +31,7 @@ const sortByData = [
 ];
 
 export default function MovieListHeader({ sortByFunc, searchFunc, addMovieData }) {
+  const dispatch = useDispatch();
   const searchInputRef = useRef(null)
   const [value, setValue] = useState('');
   const handleChange = event => {
@@ -47,7 +50,8 @@ export default function MovieListHeader({ sortByFunc, searchFunc, addMovieData }
   };
 
   const searchHandler = () => {
-    searchFunc(searchInputRef.current.value);
+    let searchStr = searchInputRef.current.value
+    dispatch(searchMovieData(searchStr));
   };
 
   return (

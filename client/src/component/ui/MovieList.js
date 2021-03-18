@@ -5,7 +5,7 @@ export default function MovieList({ movieData, updateMovieData}) {
   return (
     <>
       <div className="movie-list">
-        {movieData &&
+        {movieData.length > 0 &&
           movieData.map((movieObj, index) => (
             <Chunk
               id={movieObj.id}

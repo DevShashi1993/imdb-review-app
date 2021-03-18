@@ -25,7 +25,7 @@ import { addNewMovieData, updateMovieData } from '../../utils/api';
 const CrudModal = ({ isOpen, isNewData, onClose, modalData }) => {
   // const [values, setValues] = useState(modalData);
   const initialRef = React.useRef();
-  console.log(modalData);
+  // console.log(modalData);
   // const handleChange = event => {
   //   setValues({
   //     ...values,
