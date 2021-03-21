@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { Box, Skeleton, SkeletonCircle, SkeletonText } from '@chakra-ui/react';
+import React from 'react';
 import ChunkSkeleton from './ChunkSkeleton';
 
 export default function MovieListSkeleton() {

@@ -1,25 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
 import { Box } from '@chakra-ui/react';
 import MovieList from '../ui/MovieList';
 import MovieListSkeleton from '../ui/MovieListSkeleton';
 import MovieListHeader from '../ui/MovieListHeader';
 import GroupByGenre from '../ui/GroupByGenre';
 import CrudModal from '../ui/CrudModal';
-import { getAllMovieData, searchMovieData } from '../../store/actions/movieActions';
+import {
+  getAllMovieData,
+  searchMovieData,
+} from '../../store/actions/movieActions';
 
 export default function Landing() {
   const dispatch = useDispatch();
   const initModalData = {
     id: '',
-    movie_name : '',
-    director_name : '',
-    genre : '',
-    rating : '0.0',
-    popularity : '0.0',
-  }
-  const { movieData } = useSelector(state => state.movieState);
+    movie_name: '',
+    director_name: '',
+    genre: '',
+    rating: '0.0',
+    popularity: '0.0',
+  };
+  const { movieData, isLoading } = useSelector(state => state.movieState);
   const [isOpen, setIsOpen] = useState(false);
   const [isNewData, setIsNewData] = useState(false);
   const [modalData, setModalData] = useState(initModalData);
@@ -28,21 +30,21 @@ export default function Landing() {
     dispatch(getAllMovieData());
   }, [dispatch]);
 
-  console.log('Landing comp rendered');
+  // console.log('Landing comp rendered');
 
   const onClose = () => {
     setIsOpen(false);
   };
 
-  const updateMovieData = (data) => {
+  const updateMovieData = data => {
     setIsOpen(true);
     setIsNewData(false);
     setModalData(data);
   };
 
-  const addMovieData = (data) => {
+  const addMovieData = data => {
     setIsOpen(true);
-    setIsNewData(true)
+    setIsNewData(true);
     setModalData(initModalData);
   };
 
@@ -77,48 +79,28 @@ export default function Landing() {
 
   const searchFunc = async searchStr => {
     dispatch(searchMovieData(searchStr));
-    // try {
-    //   const res = await axios.get(`/movie/search`, {
-    //     params: {
-    //       keyword: searchStr,
-    //     },
-    //   });
-      
-    //   if (res.status === 200) {
-    //     let newMovieData = await res.data;
-    //     newMovieData = newMovieData.map(obj => {
-    //       let { id, name, director, imdb_score, popularity, genres } = obj;
-    //       genres = genres && genres.length > 0 ? genres.split(',') : [];
-    //       return {
-    //         id: id,
-    //         movie_name: name,
-    //         director_name: director,
-    //         rating: imdb_score,
-    //         popularity: popularity,
-    //         genre: genres,
-    //       };
-    //     });
-    //     // setMovieData(newMovieData);
-    //   }
-    // } catch (error) {
-    //   console.log(`Error: ${error}`);
-    // }
-  };
-
-  const groupBy = groupby => {
-    let newMovieData = [...movieData];
-    newMovieData = newMovieData.filter(data => groupby.every(g => data.genre.includes(g)));
-    // setMovieData(newMovieData);
   };
 
   return (
     <Box className="main-section">
-      <GroupByGenre groupByHandler={groupBy} />
+      <GroupByGenre />
       <Box className="movie-list-container">
-        <MovieListHeader sortByFunc={sortBy} searchFunc={searchFunc} addMovieData={addMovieData} />
-        <MovieListSkeleton/>
-        {/* <MovieList movieData={movieData} updateMovieData={updateMovieData}/> */}
-        <CrudModal isOpen={isOpen} isNewData={isNewData} onClose={onClose} modalData={modalData} />
+        <MovieListHeader
+          sortByFunc={sortBy}
+          searchFunc={searchFunc}
+          addMovieData={addMovieData}
+        />
+        {isLoading ? (
+          <MovieListSkeleton /> 
+        ) : (
+          <MovieList movieData={movieData} updateMovieData={updateMovieData} />
+        )}
+        <CrudModal
+          isOpen={isOpen}
+          isNewData={isNewData}
+          onClose={onClose}
+          modalData={modalData}
+        />
       </Box>
     </Box>
   );

@@ -7,10 +7,10 @@ router.get("/all", async (req, res) => {
   try {
     const getAllMoviesDataQry = `WITH movie_genre_agg AS
     (
-    SELECT movie_id, string_agg(name::text, ',') AS genres FROM genre g
-    LEFT JOIN movie_genre mg
-    ON mg.genre_id = g.id
-    GROUP BY movie_id
+      SELECT movie_id, string_agg(name::text, ',') AS genres FROM genre g
+      LEFT JOIN movie_genre mg
+      ON mg.genre_id = g.id
+      GROUP BY movie_id
     )
     SELECT id, name, director, imdb_score, popularity, genres FROM movies m
     LEFT JOIN movie_genre_agg mga
@@ -29,7 +29,7 @@ router.get("/all", async (req, res) => {
   }
 });
 
-//get all movie data matching the search keyword 
+//get all movie data matching the search keyword
 router.get("/search", async (req, res) => {
   const { keyword } = req.query;
   try {
@@ -51,6 +51,45 @@ router.get("/search", async (req, res) => {
     // console.log(`Query => ${getMatchingMoviesDataQry}`);
     if (matchingMoviesData.rows.length > 0) {
       return res.status(200).json(matchingMoviesData.rows);
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
+//get all movie data grouped by Genre Data
+router.get("/groupbygenre", async (req, res) => {
+  const { genre } = req.query;
+  try {
+    if (genre) {
+      const noOfGenre = genre.split(',').length;
+      const getMoviesGroupedByGenreQry = `WITH movie_genre_groupby AS 
+      ( 
+        SELECT movie_id FROM movie_genre mg WHERE genre_id IN (${genre})
+		    GROUP BY movie_id having count(*) = ${noOfGenre}
+      ),
+      movie_genre_agg AS
+      (
+        SELECT mgg.movie_id, string_agg(name::text, ',') AS genres FROM genre g
+        INNER JOIN movie_genre mg
+        ON mg.genre_id = g.id
+		    INNER JOIN movie_genre_groupby mgg
+        ON mg.movie_id = mgg.movie_id
+        GROUP BY mgg.movie_id
+      )
+      SELECT id, name, director, imdb_score, popularity, genres FROM movies m
+      INNER JOIN movie_genre_agg mga
+      ON mga.movie_id = m.id
+      ORDER BY name`;
+
+      const groupByGenreMoviesData = await pool.query(
+        getMoviesGroupedByGenreQry
+      );
+      //console.log(`Query => ${getMoviesGroupedByGenreQry}`);
+      if (groupByGenreMoviesData.rows.length >= 0) {
+        return res.status(200).json(groupByGenreMoviesData.rows);
+      }
     }
   } catch (err) {
     console.error(err.message);

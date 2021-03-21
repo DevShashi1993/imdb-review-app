@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Chunk from '../ui/Chunk';
 
 export default function MovieList({ movieData, updateMovieData}) {

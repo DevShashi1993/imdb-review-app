@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Box,
-  Text,
   Skeleton,
-  Stack,
-  SkeletonCircle,
-  SkeletonText,
 } from '@chakra-ui/react';
 
 export default function ChunkSkeleton() {

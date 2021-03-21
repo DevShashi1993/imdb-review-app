@@ -22,3 +22,11 @@ CREATE TABLE IF NOT EXISTS movie_genre (
 	CONSTRAINT fk_movie_genre_movie_id FOREIGN KEY(movie_id) REFERENCES movies(id),
 	CONSTRAINT fk_movie_genre_genre_id FOREIGN KEY(genre_id) REFERENCES genre(id)
 );
+
+CREATE TABLE IF NOT EXISTS admin_users (
+	id INT GENERATED ALWAYS AS IDENTITY (START WITH 100001) PRIMARY KEY,
+	username VARCHAR ( 50 ) UNIQUE NOT NULL,
+	password VARCHAR ( 150 ) NOT NULL,
+	created_on TIMESTAMP NOT NULL,
+	last_login TIMESTAMP
+);

@@ -1,38 +1,44 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Box, ButtonGroup, Button } from '@chakra-ui/react';
+import {
+  getAllMovieData,
+  groupByGenre,
+} from '../../store/actions/movieActions';
 
 const data = [
-  { id: '1', text: 'Action', isActive: false },
-  { id: '2', text: 'Adult', isActive: false },
-  { id: '3', text: 'Adventure', isActive: false },
-  { id: '4', text: 'Animation', isActive: false },
-  { id: '5', text: 'Biography', isActive: false },
-  { id: '6', text: 'Comedy', isActive: false },
-  { id: '7', text: 'Crime', isActive: false },
-  { id: '8', text: 'Documentary', isActive: false },
-  { id: '9', text: 'Drama', isActive: false },
-  { id: '10', text: 'Family', isActive: false },
-  { id: '11', text: 'Fantasy', isActive: false },
-  { id: '12', text: 'Film-Noir', isActive: false },
-  { id: '13', text: 'Game-Show', isActive: false },
-  { id: '14', text: 'History', isActive: false },
-  { id: '15', text: 'Horror', isActive: false },
-  { id: '16', text: 'Music', isActive: false },
-  { id: '17', text: 'Musical', isActive: false },
-  { id: '18', text: 'Mystery', isActive: false },
-  { id: '19', text: 'News', isActive: false },
-  { id: '20', text: 'Reality-TV', isActive: false },
-  { id: '21', text: 'Romance', isActive: false },
-  { id: '22', text: 'Sci-Fi', isActive: false },
-  { id: '23', text: 'Short', isActive: false },
-  { id: '24', text: 'Sport', isActive: false },
-  { id: '25', text: 'Talk-Show', isActive: false },
-  { id: '26', text: 'Thriller', isActive: false },
-  { id: '27', text: 'War', isActive: false },
-  { id: '28', text: 'Western', isActive: false },
+  { id: 101, text: 'Action', isActive: false },
+  { id: 102, text: 'Adult', isActive: false },
+  { id: 103, text: 'Adventure', isActive: false },
+  { id: 104, text: 'Animation', isActive: false },
+  { id: 105, text: 'Biography', isActive: false },
+  { id: 106, text: 'Comedy', isActive: false },
+  { id: 107, text: 'Crime', isActive: false },
+  { id: 108, text: 'Documentary', isActive: false },
+  { id: 109, text: 'Drama', isActive: false },
+  { id: 110, text: 'Family', isActive: false },
+  { id: 111, text: 'Fantasy', isActive: false },
+  { id: 112, text: 'Film-Noir', isActive: false },
+  { id: 113, text: 'Game-Show', isActive: false },
+  { id: 114, text: 'History', isActive: false },
+  { id: 115, text: 'Horror', isActive: false },
+  { id: 116, text: 'Music', isActive: false },
+  { id: 117, text: 'Musical', isActive: false },
+  { id: 118, text: 'Mystery', isActive: false },
+  { id: 119, text: 'News', isActive: false },
+  { id: 120, text: 'Reality-TV', isActive: false },
+  { id: 121, text: 'Romance', isActive: false },
+  { id: 122, text: 'Sci-Fi', isActive: false },
+  { id: 123, text: 'Short', isActive: false },
+  { id: 124, text: 'Sport', isActive: false },
+  { id: 125, text: 'Talk-Show', isActive: false },
+  { id: 126, text: 'Thriller', isActive: false },
+  { id: 127, text: 'War', isActive: false },
+  { id: 128, text: 'Western', isActive: false },
 ];
 
-export default function GroupByGenre({ groupByHandler }) {
+export default function GroupByGenre() {
+  const dispatch = useDispatch();
   const [grpByGenreData, setGrpByGenreData] = useState(data);
   // console.log('group By data =>', grpByGenreData);
 
@@ -42,10 +48,13 @@ export default function GroupByGenre({ groupByHandler }) {
     setGrpByGenreData(newGrpByGenreData);
 
     let grpByArr = grpByGenreData.reduce((acc, cur) => {
-      if (cur['isActive'] === true) acc.push(cur['text']);
-        return acc;
-    },[]);
-    groupByHandler(grpByArr);
+      if (cur.isActive === true) acc.push(cur.id);
+      return acc;
+    }, []);
+
+    grpByArr.length > 0
+      ? dispatch(groupByGenre(grpByArr))
+      : dispatch(getAllMovieData());
   };
 
   return (

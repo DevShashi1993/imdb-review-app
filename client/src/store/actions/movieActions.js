@@ -1,5 +1,10 @@
 import axios from 'axios';
-import { GET_ALL_MOVIE, SEARCH_MOVIE, GET_ERRORS } from './types';
+import {
+  GET_ALL_MOVIE,
+  SEARCH_MOVIE,
+  GROUP_BY_GENRE,
+  GET_ERRORS,
+} from './types';
 
 export const getAllMovieData = () => async dispatch => {
   let newMovieData = [];
@@ -61,6 +66,44 @@ export const searchMovieData = searchStr => async dispatch => {
 
       dispatch({
         type: SEARCH_MOVIE,
+        payload: newMovieData,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: error.response.data,
+    });
+  }
+};
+
+export const groupByGenre = grpByGenreArr => async dispatch => {
+  console.log(grpByGenreArr);
+  let newMovieData = [];
+  try {
+    const res = await axios.get(`/movie/groupbygenre`, {
+      params: {
+        genre: grpByGenreArr.reduce((f, s) => `${f},${s}`),
+      },
+    });
+
+    if (res.status === 200) {
+      newMovieData = await res.data;
+      newMovieData = newMovieData.map(obj => {
+        let { id, name, director, imdb_score, popularity, genres } = obj;
+        genres = genres && genres.length > 0 ? genres.split(',') : [];
+        return {
+          id: id,
+          movie_name: name,
+          director_name: director,
+          rating: imdb_score,
+          popularity: popularity,
+          genre: genres,
+        };
+      });
+
+      dispatch({
+        type: GROUP_BY_GENRE,
         payload: newMovieData,
       });
     }
