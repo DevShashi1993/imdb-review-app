@@ -2,6 +2,7 @@ import {
   GET_ALL_MOVIE,
   SEARCH_MOVIE,
   GROUP_BY_GENRE,
+  SORT_BY,
   ADD_MOVIE,
   DELETE_MOVIE,
   UPDATE_MOVIE,
@@ -34,7 +35,12 @@ const ticketReducer = (state = initialSate, action) => {
         isLoading: false,
         movieData: action.payload,
       };
-
+    case SORT_BY:
+      return {
+        ...state,
+        isLoading: false,
+        movieData: action.payload,
+      };
     case ADD_MOVIE:
       return {
         ...state,

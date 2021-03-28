@@ -140,10 +140,8 @@ $primary-color: tomato;
 }
 
 
-/* iPad and Tablet Media Query */
-
-/* (portrait) */
-@media only screen and (min-width: 600px) and (max-device-width : 1024px) and (orientation : portrait) {
+/* iPad and Tablet Media Query (portrait) */
+@media only screen and (min-width: 600px) {
     .main-section {
         .group-by-genre {
             margin: 0.5em 2em;
@@ -172,7 +170,7 @@ $primary-color: tomato;
 }
 
 
-/* (landscape) */
+/* iPad and Tablet Media Query  (landscape) */
 @media only screen and (min-width: 768px) {
     .main-section {
         .group-by-genre {

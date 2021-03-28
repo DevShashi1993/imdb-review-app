@@ -6,10 +6,7 @@ import MovieListSkeleton from '../ui/MovieListSkeleton';
 import MovieListHeader from '../ui/MovieListHeader';
 import GroupByGenre from '../ui/GroupByGenre';
 import CrudModal from '../ui/CrudModal';
-import {
-  getAllMovieData,
-  searchMovieData,
-} from '../../store/actions/movieActions';
+import { getAllMovieData } from '../../store/actions/movieActions';
 
 export default function Landing() {
   const dispatch = useDispatch();
@@ -48,50 +45,13 @@ export default function Landing() {
     setModalData(initModalData);
   };
 
-  const sortBy = sortby => {
-    let newMovieData = [...movieData];
-    switch (sortby) {
-      case '101':
-        newMovieData = newMovieData.sort((a, b) =>
-          a.name.localeCompare(b.name)
-        );
-        break;
-      case '102':
-        newMovieData = newMovieData.sort(
-          (a, b) => parseFloat(b.imdb_score) - parseFloat(a.imdb_score)
-        );
-        break;
-      case '103':
-        newMovieData = newMovieData.sort(
-          (a, b) => parseFloat(b.popularity) - parseFloat(a.popularity)
-        );
-        break;
-      case '104':
-        newMovieData = newMovieData.sort((a, b) =>
-          a.director.localeCompare(b.director)
-        );
-        break;
-      default:
-        break;
-    }
-    // setMovieData(newMovieData);
-  };
-
-  const searchFunc = async searchStr => {
-    dispatch(searchMovieData(searchStr));
-  };
-
   return (
     <Box className="main-section">
       <GroupByGenre />
       <Box className="movie-list-container">
-        <MovieListHeader
-          sortByFunc={sortBy}
-          searchFunc={searchFunc}
-          addMovieData={addMovieData}
-        />
+        <MovieListHeader addMovieData={addMovieData} />
         {isLoading ? (
-          <MovieListSkeleton /> 
+          <MovieListSkeleton />
         ) : (
           <MovieList movieData={movieData} updateMovieData={updateMovieData} />
         )}
