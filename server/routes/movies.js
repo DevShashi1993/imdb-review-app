@@ -5,6 +5,7 @@ const pool = require("../db");
 //get all movie data
 router.get("/all", async (req, res) => {
   try {
+    const { offSet } = req.query;
     const getAllMoviesDataQry = `WITH movie_genre_agg AS
     (
       SELECT movie_id, string_agg(name::text, ',') AS genres FROM genre g
@@ -15,7 +16,9 @@ router.get("/all", async (req, res) => {
     SELECT id, name, director, imdb_score, popularity, genres FROM movies m
     LEFT JOIN movie_genre_agg mga
     ON mga.movie_id = m.id
-    ORDER BY name`;
+    ORDER BY name
+    LIMIT 10
+    OFFSET ${offSet}`;
 
     const allMoviesData = await pool.query(getAllMoviesDataQry);
 

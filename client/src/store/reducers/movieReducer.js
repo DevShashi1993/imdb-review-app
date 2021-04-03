@@ -11,6 +11,7 @@ import {
 
 const initialSate = {
   movieData: [],
+  page: 0,
   isLoading: true,
   error: null,
 };
@@ -20,6 +21,7 @@ const ticketReducer = (state = initialSate, action) => {
     case GET_ALL_MOVIE:
       return {
         ...state,
+        page: state.page + 1,
         isLoading: false,
         movieData: action.payload,
       };

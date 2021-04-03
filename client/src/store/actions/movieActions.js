@@ -7,10 +7,16 @@ import {
   GET_ERRORS,
 } from './types';
 
-export const getAllMovieData = () => async dispatch => {
+export const getAllMovieData = (page) => async (dispatch, getState) => {
   let newMovieData = [];
+  const prevMovieData = getState().movieState.movieData;
+  
   try {
-    const res = await axios.get('/movie/all');
+    const res = await axios.get('/movie/all', {
+      params: {
+        offSet: page * 10,
+      },
+    });
 
     if (res.status === 200) {
       newMovieData = await res.data;
@@ -27,6 +33,8 @@ export const getAllMovieData = () => async dispatch => {
           genre: genres,
         };
       });
+
+      newMovieData = [...prevMovieData, ...newMovieData];
 
       dispatch({
         type: GET_ALL_MOVIE,
@@ -55,6 +63,7 @@ export const searchMovieData = searchStr => async dispatch => {
 
       if (res.status === 200) {
         newMovieData = await res.data;
+        
         newMovieData = newMovieData.map(obj => {
           let { id, name, director, imdb_score, popularity, genres } = obj;
           genres = genres && genres.length > 0 ? genres.split(',') : [];

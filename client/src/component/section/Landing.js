@@ -18,13 +18,13 @@ export default function Landing() {
     rating: '0.0',
     popularity: '0.0',
   };
-  const { movieData, isLoading } = useSelector(state => state.movieState);
+  const { movieData, page, isLoading } = useSelector(state => state.movieState);
   const [isOpen, setIsOpen] = useState(false);
   const [isNewData, setIsNewData] = useState(false);
   const [modalData, setModalData] = useState(initModalData);
 
   useEffect(() => {
-    dispatch(getAllMovieData());
+    dispatch(getAllMovieData(page));
   }, [dispatch]);
 
   // console.log('Landing comp rendered');
